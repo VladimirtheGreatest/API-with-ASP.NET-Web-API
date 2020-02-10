@@ -23,11 +23,11 @@ namespace TheCodeCamp.Controllers
         }
 
         [Route()]
-        public async Task<IHttpActionResult> Get()
+        public async Task<IHttpActionResult> Get(bool includeTalks = false)
         {
             try
             {
-                var result = await _repository.GetAllCampsAsync();
+                var result = await _repository.GetAllCampsAsync(includeTalks);
                 //mapping
                 var mappedResult = _mapper.Map<IEnumerable<CampModel>>(result);
               
@@ -40,11 +40,11 @@ namespace TheCodeCamp.Controllers
         }
 
         [Route("{moniker}")]
-        public async Task<IHttpActionResult> Get(string moniker)
+        public async Task<IHttpActionResult> Get(string moniker, bool includeTalks = false)
         {
             try
             {
-                var result = await _repository.GetCampAsync(moniker);
+                var result = await _repository.GetCampAsync(moniker, includeTalks);
 
                 if (result == null)
                 {
@@ -52,6 +52,29 @@ namespace TheCodeCamp.Controllers
                 }
 
                 return Ok(_mapper.Map<CampModel>(result));
+            }
+            catch (Exception ex)
+            {
+
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("searchByDate/{eventDate:datetime}")]
+        [HttpGet]
+        public async Task<IHttpActionResult> SearchByEventDate(DateTime eventDate, bool includeTalks = false)
+        {
+            try
+            {
+                var result = await _repository.GetAllCampsByEventDate(eventDate, includeTalks);
+
+                if (result == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(_mapper.Map<CampModel[]>(result));
+
             }
             catch (Exception ex)
             {
