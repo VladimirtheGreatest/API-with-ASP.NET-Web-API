@@ -90,6 +90,11 @@ namespace TheCodeCamp.Controllers
         {
             try
             {
+                if (await _repository.GetCampAsync(model.Moniker) != null)
+                {
+                    ModelState.AddModelError("Moniker", "Moniker in use");
+                }
+                //validation
                 if (ModelState.IsValid)
                 {
                     var camp = _mapper.Map<Camp>(model);
@@ -99,7 +104,6 @@ namespace TheCodeCamp.Controllers
                         var newModel = _mapper.Map<CampModel>(camp);
                             return CreatedAtRoute("GetCamp", new { moniker = newModel.Moniker }, newModel);
                     }
-
                 }
             }
             catch (Exception ex)
@@ -108,7 +112,7 @@ namespace TheCodeCamp.Controllers
               return InternalServerError(ex);
             }
 
-            return BadRequest();
+            return BadRequest(ModelState);
         }
 
     }
