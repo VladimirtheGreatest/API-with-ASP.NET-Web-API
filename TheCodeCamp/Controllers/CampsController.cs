@@ -101,7 +101,7 @@ namespace TheCodeCamp.Controllers
                     _repository.AddCamp(camp);
                     if (await _repository.SaveChangesAsync().ConfigureAwait(false))
                     {
-                        var newModel = _mapper.Map<CampModel>(camp);
+                            var newModel = _mapper.Map<CampModel>(camp);
                             return CreatedAtRoute("GetCamp", new { moniker = newModel.Moniker }, newModel);
                     }
                 }
