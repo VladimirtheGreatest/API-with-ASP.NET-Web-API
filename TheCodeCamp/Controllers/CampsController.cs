@@ -28,7 +28,7 @@ namespace TheCodeCamp.Controllers
         {
             try
             {
-                var result = await _repository.GetAllCampsAsync(includeTalks);
+                var result = await _repository.GetAllCampsAsync(includeTalks).ConfigureAwait(false);
                 //mapping
                 var mappedResult = _mapper.Map<IEnumerable<CampModel>>(result);
               
@@ -46,7 +46,7 @@ namespace TheCodeCamp.Controllers
         {
             try
             {
-                var result = await _repository.GetCampAsync(moniker, includeTalks);
+                var result = await _repository.GetCampAsync(moniker, includeTalks).ConfigureAwait(false);
 
                 if (result == null)
                 {
@@ -68,7 +68,7 @@ namespace TheCodeCamp.Controllers
         {
             try
             {
-                var result = await _repository.GetAllCampsByEventDate(eventDate, includeTalks);
+                var result = await _repository.GetAllCampsByEventDate(eventDate, includeTalks).ConfigureAwait(false);
 
                 if (result == null)
                 {
@@ -90,7 +90,7 @@ namespace TheCodeCamp.Controllers
         {
             try
             {
-                if (await _repository.GetCampAsync(model.Moniker) != null)
+                if (await _repository.GetCampAsync(model.Moniker).ConfigureAwait(false) != null)
                 {
                     ModelState.AddModelError("Moniker", "Moniker in use");
                 }
@@ -99,7 +99,7 @@ namespace TheCodeCamp.Controllers
                 {
                     var camp = _mapper.Map<Camp>(model);
                     _repository.AddCamp(camp);
-                    if (await _repository.SaveChangesAsync() )
+                    if (await _repository.SaveChangesAsync().ConfigureAwait(false))
                     {
                         var newModel = _mapper.Map<CampModel>(camp);
                             return CreatedAtRoute("GetCamp", new { moniker = newModel.Moniker }, newModel);
@@ -113,6 +113,35 @@ namespace TheCodeCamp.Controllers
             }
 
             return BadRequest(ModelState);
+        }
+        [Route("{moniker}")]
+        public async Task<IHttpActionResult> Put(string moniker, CampModel model)
+        {
+            try
+            {
+                var camp = await _repository.GetCampAsync(moniker).ConfigureAwait(false);
+                if (camp == null)
+                {
+                    return NotFound();
+                }
+
+                //take the camp model and put it into camp
+                _mapper.Map(model, camp);
+
+                if (await _repository.SaveChangesAsync())
+                {
+                    return Ok(_mapper.Map<CampModel>(camp));
+                } else
+                {
+                    return InternalServerError();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return InternalServerError(ex);
+            }
+
         }
 
     }
