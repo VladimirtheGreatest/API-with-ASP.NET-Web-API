@@ -2,4 +2,4 @@
 API with ASP.NET Web API using Entity Framework,, Web API, AutoMapper
 
 
-<img src="https://www.akamai.com/uk/en/multimedia/images/video/akamai-api-video-thumbnail.jpg?imwidth=1366" alt="Smiley face" width="42" height="42">
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcReNflyOU2g732zErmDnv1Ca2Hx7M48_OKNVHQbJwIe8Qdh0aj2" alt="Smiley face" width="600" height="400">
