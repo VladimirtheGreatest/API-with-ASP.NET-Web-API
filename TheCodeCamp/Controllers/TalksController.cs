@@ -96,7 +96,7 @@ namespace TheCodeCamp.Controllers
 
             }
 
-            return BadRequest();
+            return BadRequest(ModelState);
 
         }
 
