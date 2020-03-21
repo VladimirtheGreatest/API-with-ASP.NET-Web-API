@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Web.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,8 @@ using TheCodeCamp.Models;
 
 namespace TheCodeCamp.Controllers
 {
+    [ApiVersion("1.0")]
+    [ApiVersion("1.1")]
     [RoutePrefix("api/camps")]
     public class CampsController : ApiController
     {
@@ -47,6 +50,28 @@ namespace TheCodeCamp.Controllers
             try
             {
                 var result = await _repository.GetCampAsync(moniker, includeTalks).ConfigureAwait(false);
+
+                if (result == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(_mapper.Map<CampModel>(result));
+            }
+            catch (Exception ex)
+            {
+
+                return InternalServerError(ex);
+            }
+        }
+        [MapToApiVersion("1.1")]
+        //get single camp route different version with talks
+        [Route("{moniker}", Name = "GetCamp2")]
+        public async Task<IHttpActionResult> Get(string moniker)
+        {
+            try
+            {
+                var result = await _repository.GetCampAsync(moniker, true).ConfigureAwait(false);
 
                 if (result == null)
                 {
