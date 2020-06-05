@@ -26,6 +26,7 @@ namespace TheCodeCamp.Controllers
         }
 
         //changing from visual studio merge conflict test
+        
         [Route()]
         public async Task<IHttpActionResult> Get(bool includeTalks = false)
         {
