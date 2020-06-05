@@ -33,7 +33,7 @@ namespace TheCodeCamp.Controllers
             try
             {
                 var result = await _repository.GetAllCampsAsync(includeTalks).ConfigureAwait(false);
-                //mapping
+       
                 var mappedResult = _mapper.Map<IEnumerable<CampModel>>(result);
               
                 return Ok(mappedResult);
@@ -44,7 +44,7 @@ namespace TheCodeCamp.Controllers
             }         
         }
 
-        //get single camp route
+
         [Route("{moniker}", Name = "GetCamp")]
         public async Task<IHttpActionResult> Get(string moniker, bool includeTalks = false)
         {
