@@ -26,9 +26,6 @@ namespace TheCodeCamp.Controllers
         }
 
 
-        //I changed this comment from develop
-
-        //create conflict from github
         
         [Route()]
         public async Task<IHttpActionResult> Get(bool includeTalks = false)
