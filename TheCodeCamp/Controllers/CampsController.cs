@@ -25,7 +25,7 @@ namespace TheCodeCamp.Controllers
             _mapper = mapper;
         }
 
-        //changing from visual studio merge conflict test
+        //I changed this comment from masters on github
 
         //create conflict from github
         
