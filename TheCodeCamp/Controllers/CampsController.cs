@@ -25,7 +25,8 @@ namespace TheCodeCamp.Controllers
             _mapper = mapper;
         }
 
-        //get all camps route
+        //changing from visual studio merge conflict test
+        
         [Route()]
         public async Task<IHttpActionResult> Get(bool includeTalks = false)
         {
